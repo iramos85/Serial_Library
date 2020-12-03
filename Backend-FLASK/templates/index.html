@@ -9,13 +9,16 @@
     <h1>
       The Infernal List
     </h1>
-    {% for name in name %}
+    {% for profile in profile %}
     <h2>
-        {{ name.name }}
+        {{ profile.name }}
     </h2>
     <p>
-        <b>Link</b>: {{ name.url }}
+        <b>Active</b>: {{ profile.active }}
     </p>
+    <p>
+      <b>Summary</b>: {{ profile.summary }}
+  </p>
 
     {% endfor %}
     
