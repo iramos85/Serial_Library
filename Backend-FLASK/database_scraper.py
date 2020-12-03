@@ -8,11 +8,7 @@ from time import sleep
 from random import randint
 
 
-# #variables to specify for each filter
-# profile_div = soup.find_all('div', class_='col-xs-8 col-sm-9 pad0')
-# app_div = soup.find_all('a', class_='bl text-left mar5tb')
 
-print('**************************************************')
 #arrays to hold data
 names = []
 profile_urls = []
@@ -77,7 +73,6 @@ def page_scraper():
 
             killer_profiles.to_csv('killer_profiles.csv')
 
-page_scraper()
 
 
 
@@ -89,8 +84,6 @@ page_scraper()
 
 # # #pass data into CSV file
 # profiles.to_csv('profiles.csv')
-
-
 
 
 

@@ -1,31 +1,114 @@
-from flask import Flask, render_template, request, redirect, url_for
+
+from flask import Flask, jsonify, g
 from flask_cors import CORS
-# from resources.dogs import dog # adding this line
-# from resources.users import user
-# import models
-import csv
+from resources.killers import killer # adding this line
+from resources.users import user
+import models
+# we need to import and configure the LoginManager
+# https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager
+# the LM is the main tool for coordinating session/login stuff in our app
+from flask_login import LoginManager
 
 DEBUG = True
 PORT = 8000
 
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    with open('data/killer_profiles.csv') as csv_file:
-        data = csv.reader(csv_file, delimiter=',')
-        first_line = True
-        profile = []
-        for row in data:
-            if not first_line:
-                profile.append({
-                    "name": row[1],
-                    "active": row[2],
-                    "summary": row[3]
-                })
-            else:
-                first_line = False
-    return render_template('index.html', profile=profile)
+# configuring the LoginManager according to this
+# https://flask-login.readthedocs.io/en/latest/#configuring-your-application
+# we need to do several things
 
+#1. we need to set up a secret/key for sessions
+# as demonstated here: https://flask.palletsprojects.com/en/1.1.x/quickstart/#sessions
+app.secret_key = "List of the Damned"
+
+#2. instantiate the LoginManager to actually get a login_manager
+login_manager = LoginManager()
+
+#3. actually connect the app with the login manager
+login_manager.init_app(app) #set up sessions on the app
+
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        print('loading the following user')
+        user = models.User.get_by_id(user_id) #IMPORTANT CHANGE
+                                            # USE get_by_id
+
+        return user
+
+    except models.DoesNotExist:
+        return None
+
+
+CORS(killer, origins=['http://localhost:3000'], supports_credentials=True) # adding this line
+CORS(user, origins=['http://localhost:3000'], supports_credentials=True) # adding this line
+
+# Similiar to this in Javascript: app.use('/api/v1/killers', controller)
+app.register_blueprint(killer, url_prefix='/api/v1/killers') # adding this line
+app.register_blueprint(user, url_prefix='/api/v1/users')
+
+
+
+@app.before_request
+def before_request():
+    """Connect to the database before each request."""
+    g.db = models.DATABASE
+    g.db.connect()
+
+@app.after_request
+def after_request(response):
+    """Close the database connection after each request."""
+    g.db.close()
+    return response
+
+# This notation is known as a decorator, it's a higher order function
+# that imports the function that it's decorating and adds logic to it.
+@app.route('/')
+def index():
+	return "Hello"
+
+@app.route('/sayhi/<username>')
+def hello(username):
+	return "Hello {}".format(username)
+
+# When we run this file, everything below this is our executable
+# logic
 if __name__ == "__main__":
-    app.run(debug=DEBUG, port=PORT)
+	models.initialize()
+	app.run(debug=DEBUG, port=PORT)
+
+
+
+
+# from flask import Flask, render_template, request, redirect, url_for
+# from flask_cors import CORS
+# # from resources.dogs import dog # adding this line
+# # from resources.users import user
+# # import models
+# import csv
+
+# DEBUG = True
+# PORT = 8000
+
+# app = Flask(__name__)
+
+# @app.route("/")
+# def index():
+#     with open('data/killer_profiles.csv') as csv_file:
+#         data = csv.reader(csv_file, delimiter=',')
+#         first_line = True
+#         profile = []
+#         for row in data:
+#             if not first_line:
+#                 profile.append({
+#                     "name": row[1],
+#                     "active": row[2],
+#                     "summary": row[3]
+#                 })
+#             else:
+#                 first_line = False
+#     return render_template('index.html', profile=profile)
+
+# if __name__ == "__main__":
+#     app.run(debug=DEBUG, port=PORT)
