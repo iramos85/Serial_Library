@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_cors import CORS
+# from resources.dogs import dog # adding this line
+# from resources.users import user
+import models
 import csv
 
 DEBUG = True

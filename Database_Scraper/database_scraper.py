@@ -41,51 +41,56 @@ for page in pages:
 # print(profile_urls)
 
 def page_scraper():
-
-    for url in profile_urls:
-
-    # url = profile_urls
-        results = requests.get(url)
-        soup = BeautifulSoup(results.text, 'html.parser')
-
-    profile_div = soup.find_all('div', class_='col-xs-8 col-sm-9 pad0')
-
+    
     name = []
     summaries = []
-    active_time = []
-
-    for body in soup.find_all('body'):
-        title = body.find('h1', class_='bl pad10 mar0').text
-        name.append(title)
-
-        summary = body.find('p', class_='lead b pad0 mar20t text-justify').text
-        summaries.append(summary)
-
-        active = body.find('h4', class_='pad5 mar0 bg-g w').text
-        active_time.append(active)
-
-    killer_profiles = pd.DataFrame({
-        'Name': name,
-        'Summary': summaries,
-        'Active': active_time
-    })
-
-    killer_profiles.to_csv('killer_profiles.csv')
+    active_time = [] 
     
+    for url in profile_urls:
+
+        results = requests.get(url)
+        soup = BeautifulSoup(results.text, 'html.parser')
+        # print(results)
+        # print(soup)
+
+        for body in soup.find_all('body'):
+
+            
+
+            title = body.find('h1', class_='bl pad10 mar0').text
+            name.append(title)
+
+            summary = body.find('p', class_='lead b pad0 mar20t text-justify').text
+            summaries.append(summary)
+
+            active = body.find('h4', class_='pad5 mar0 bg-g w').text
+            active_time.append(active)
+            # print(title)
+            # print(summary)
+            # print(active)
+
+            killer_profiles = pd.DataFrame({
+                'Name': name,
+                'Active': active_time,
+                'Summary': summaries
+            })
+
+            killer_profiles.to_csv('killer_profiles.csv')
+
 page_scraper()
 
 
 
-#create table for Scraped Data
+# # create table for Scraped Data
 # profiles = pd.DataFrame({
 #     'name': names,
 #     'url': profile_urls
 # })
 
-# #pass data into CSV file
+# # #pass data into CSV file
 # profiles.to_csv('profiles.csv')
 
-#pass data into CSV file
+
 
 
 
