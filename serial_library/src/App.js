@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import LoginRegisterForm from './LoginRegisterForm'
+import KillerContainer from './KillerContainer'
+
 import Header from './Header'
+
+
 
 export default class App extends Component {
   constructor() {
@@ -101,22 +104,12 @@ export default class App extends Component {
    render() {
      return (
        <div className="App">
-         {
-           this.state.loggedIn
-           ?
            <React.Fragment>
              <Header email={this.state.loggedInUserEmail} logout={this.logout} />
-             <DogContainer />
+             <KillerContainer />
            </React.Fragment>
-           :
-           <LoginRegisterForm
-             login={this.login}
-             register={this.register}
-           />
-         }
        </div>
      );
    }
  }
 
-export default App;
