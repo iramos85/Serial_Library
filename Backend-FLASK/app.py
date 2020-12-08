@@ -1,10 +1,10 @@
 
-from flask import Flask, jsonify, g
+from flask import Flask, jsonify, g, request, redirect, url_for
+
 from flask_cors import CORS
 from resources.killers import killer # adding this line
 from resources.users import user
 import models
-from flask import Flask, render_template, request
 
 
 from flask_login import LoginManager
@@ -42,6 +42,7 @@ def load_user(user_id):
         return None
 
 
+
 CORS(killer, origins=['http://localhost:3000'], supports_credentials=True) # adding this line
 CORS(user, origins=['http://localhost:3000'], supports_credentials=True) # adding this line
 
@@ -70,9 +71,7 @@ def index():
 	return "Hello"
 
 
-@app.route('/sayhi/<username>')
-def hello(username):
-	return "Hello {}".format(username)
+
 
 # When we run this file, everything below this is our executable
 # logic

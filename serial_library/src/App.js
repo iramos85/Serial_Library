@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
 import SerialProfileList from './KillerContainer'
-
+import RegisterForm from './RegisterDialog'
 import Header from './Header'
-
+import './App.css';
 
 
 export default class App extends Component {
@@ -12,16 +11,15 @@ export default class App extends Component {
 
     this.state = {
       loggedIn: false,
-      loggedInUserEmail: '' // might be helpful to track something to display
-                           // "logged in as..."
+      loggedInUsername: ''
     }
   }
-
 
   register = async (registerInfo) => {
     console.log("register() in App.js called with the following info", registerInfo);
     const url = process.env.REACT_APP_API_URL + "/api/v1/users/register"
-  
+    console.log(url)
+    console.log('im in the register function')
     try {
       const registerResponse = await fetch(url, {
         credentials: 'include', // sends the cookie
@@ -105,9 +103,14 @@ export default class App extends Component {
      return (
        <div className="App">
            <React.Fragment>
-             <Header email={this.state.loggedInUserEmail} logout={this.logout} />
+             <Header email={this.state.loggedInUsername} logout={this.logout} />
              <SerialProfileList />
            </React.Fragment>
+           :
+           <RegisterForm
+           register={this.register}
+           />
+            
        </div>
      );
    }

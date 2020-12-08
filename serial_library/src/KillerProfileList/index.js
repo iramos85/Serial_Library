@@ -73,5 +73,11 @@ export default function KillerProfileList(props) {
         </React.Fragment>
       )
     })
+
+    return(
+      <Card.Group>
+        {profiles}
+      </Card.Group>
+    )
   }
 }

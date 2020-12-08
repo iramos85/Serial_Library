@@ -2,7 +2,8 @@
 
 import models
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, request, redirect, url_for
+from functools import wraps
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 from playhouse.shortcuts import model_to_dict
@@ -12,15 +13,31 @@ from flask_login import login_user, current_user, logout_user
 
 user = Blueprint('users','user')
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @user.route('/', methods=['GET'])
 def test_user_resource():
-    return "user resource works"
+    users = models.User.select()
+    user_dicts = [ model_to_dict(user) for user in users ]
+
+    for user_dict in user_dicts:
+        user_dict.pop('password')
+
+        print(user_dicts)
+
+        return jsonify(user_dicts), 200
 
 
 @user.route('/register', methods=['POST'])
 def register():
     payload = request.get_json()
-    # print(payload)
+    print(payload)
     payload['name'] = payload['name'].lower()
     # since emails are case insensitive in the world
     payload['email'] = payload['email'].lower()
@@ -55,7 +72,7 @@ def register():
             password=pw_hash
         )
         # respond with new object and success message
-        # print(created_user)
+        print(created_user)
         created_user_dict = model_to_dict(created_user)
         print(created_user_dict)
 
@@ -106,6 +123,19 @@ def login():
             message="Email or password is incorrect", #let's be vague
             status=401
         ), 401
+
+
+
+# @user.route('/<username>')
+# @login_required
+# def user(username):
+#     user = User.query.filter_by(username=username).first_or_404()
+#     readingList = [
+#         {'Killer 1', 'Test post #1'},
+#         {'Killer 2', 'Test post #2'}
+#     ]
+#     return render_template('user.html', user=user, readingList=readingList)
+
 
 @user.route('/logout', methods=['GET'])
 def logout():

@@ -9,57 +9,20 @@ import Snackbar from '@material-ui/core/Snackbar'
 import '../index.css'
 
 
-export default class CollectingFormInput extends Component {
+export default class RegisterForm extends Component {
 
   constructor() {
     super()
 
     this.state = {
       dialogOpen:false, 
-      setDialogOpen: false,
       snackbarOpen:false,
-      setSnackbarOpen: false,
       snackbarMessage:'',
-      setSnackbarMessage: '',
-      name:'',
-      setName: '',
       username:'',
-      setUsername: '',
-      email:'', 
-      setEmail:'', 
       password:'',
       action: 'Login'
     }
   } 
-  onDialogOpen = () => {
-    this.setState.setDialogOpen=true;
-  }
-
-  onDialogClose = () => {
-  this.setState.setDialogOpen=false
-  }
-
-  onSnackbarClose = (e, reason) => {
-    if (reason === 'clickaway'){
-      return
-    }
-    this.setState.setSnackbarOpen=false
-    this.setState.setSnackbarMessage=''
-  }
-
-  onCreate = () => {
-    this.setState.setSnackbarOpen=true
-    this.setState.setSnackbarMessage= '${username} + created'
-    this.setState.onDialogClose()
-  }
-
-  switchForm = () => {
-    if(this.state.action === "Login") {
-      this.setState({ action: "Register" })
-    } else {
-      this.setState({ action: "Login" })
-    }
-  }
 
   handleChange = (event) => {
     this.setState({
@@ -78,39 +41,49 @@ export default class CollectingFormInput extends Component {
         this.props.login(this.state)
       }
   }
+
+  toggleDialogBox = () => {
+    this.setState({
+      dialogOpen:!this.state.dialogOpen,
+    })
+    console.log(this.state)
+  }
+
+  onSnackbarClose = (e, reason) => {
+    if (reason === 'clickaway'){
+      return
+    }
+    this.setState({snackbarOpen:false})
+    this.setState({snackbarMessage:''})
+  }
+
+  onCreate = () => {
+    this.setState({snackbarOpen:true})
+    this.setState({snackbarMessage: `${this.state.username} created`})
+    this.toggleDialogBox()
+  }
+
+
   render() {
      return (
 
       <Fragment>
-        <Button color='primary' onClick={this.onDialogOpen}>
-          New User
+        <Button color='primary' onClick={this.toggleDialogBox}>
+          Log-In
         </Button>
-        <Dialog open={this.dialogOpen} onClose={this.onDialogClose}>
+        ?
+        <Button color='primary' onClick={this.toggleDialogBox}>
+          Logout
+        </Button>
+        <Dialog open={this.state.dialogOpen} onClose={this.toggleDialogBox}>
           <DialogTitle>New User</DialogTitle>
           <DialogContent>
-          <TextField
-            margin='normal'
-            label='Name'
-            InputProps={{ name: 'name'}}
-            onChange ={e => this.setName(e.target.value)}
-            value={this.name}
-            fullWidth
-            />
             <TextField
             margin='normal'
             label='Username'
             InputProps={{ name: 'username'}}
-            onChange ={e => this.setUsername(e.target.value)}
+            onChange = {this.handleChange}
             value={this.username}
-            fullWidth
-            />
-            <TextField
-            margin='normal'
-            label='Email Address'
-            type='email'
-            InputProps={{ name: 'email'}}
-            onChange ={e => this.setEmail(e.target.value)}
-            value={this.email}
             fullWidth
             />
              <TextField
@@ -123,7 +96,7 @@ export default class CollectingFormInput extends Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.onDialogClose} color='primary'>
+            <Button onClick={this.toggleDialogBox} color='primary'>
               Cancel
             </Button>
             <Button
@@ -131,7 +104,7 @@ export default class CollectingFormInput extends Component {
             onClick={this.onCreate}
             color='primary'
             >
-              Create
+      
             </Button>
           </DialogActions>
           <Snackbar
