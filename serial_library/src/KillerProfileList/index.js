@@ -11,6 +11,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Collapse from '@material-ui/core/Collapse'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 
 
 export default function KillerProfileList(props) {
@@ -29,7 +31,7 @@ export default function KillerProfileList(props) {
 
   const ExpandableCards = () => {
   const classes = useStyles()
-    const [expanded, setExpanded] = useState (false)
+  const [expanded, setExpanded] = useState (false)
   
   const profiles = props.profiles.map(profile => {
 
@@ -44,7 +46,7 @@ export default function KillerProfileList(props) {
             subheader={profile.active}
           />
           <CardContent>
-            <Typography variant='caption'>Active: 1985-2020 in United States</Typography>
+            <Typography variant='caption'>Active: {profile.active}</Typography>
           </CardContent>
           <CardActions disableActionspacing>
           <IconButton
@@ -61,6 +63,12 @@ export default function KillerProfileList(props) {
               </Typography>
             </CardContent>
           </Collapse>
+          {this.state.action === "Added"
+          ?
+          <LibraryAddIcon/>
+          :
+          <LibraryAddCheckIcon/>
+          }
         </Card>
         </React.Fragment>
       )

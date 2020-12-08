@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import KillerContainer from './KillerContainer'
+import SerialProfileList from './KillerContainer'
 
 import Header from './Header'
 
@@ -106,7 +106,7 @@ export default class App extends Component {
        <div className="App">
            <React.Fragment>
              <Header email={this.state.loggedInUserEmail} logout={this.logout} />
-             <KillerContainer />
+             <SerialProfileList />
            </React.Fragment>
        </div>
      );

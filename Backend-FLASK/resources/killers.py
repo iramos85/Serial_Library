@@ -14,10 +14,11 @@ killer = Blueprint('killers', 'killer')
 # current directory is this '/api/v1/killers'
 @killer.route('/', methods=["GET"])
 def get_all_killers():
-
+    killers = models.Killer.select()
+    killer_dicts = [model_to_dict(killer) for killer in killers]
     try:
-        print(current_user.killers)
-        return jsonify(data={}, status={"code": 201, "message": "Success"})
+        print(killer_dicts)
+        return jsonify(data=killer_dicts, status={"code": 201, "message": "Success"})
     except models.DoesNotExist:
         return jsonify(data={}, status={"code": 401, "message": "Error getting the resources"})
 
@@ -30,7 +31,7 @@ def get_one_killer(id):
 ##DO NOT USE THIS ROUTE. THIS WAS FOR THE INITIAL CREATION OF THE DATABASE##
 @killer.route('/seed', methods=["GET"])
 def make_database():
-    df = pandas.read_csv('/Users/ianramos85/GA/Capstone/Serial_Library/Backend-FLASK/resources/killer_profiles.csv')
+    df = pandas.read_csv('/Users/ianramos85/GA/Capstone/Serial_Library/Backend-FLASK/Data/killer_profiles.csv')
     for row in df.iterrows():
         models.Killer.create(
             name=row[1].Name,

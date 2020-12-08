@@ -1,17 +1,15 @@
 
-# this is like a "user controller" or maybe an "auth controller" in Unit 2
+
 import models
 
 from flask import Blueprint, request, jsonify
 from flask_bcrypt import generate_password_hash, check_password_hash
-                        # find the docs
-                        # ^ these are functions that return/check hashed pw
+
 from playhouse.shortcuts import model_to_dict
 from flask_login import login_user, current_user, logout_user
-                        # login_user will be used to do the session
-                        # stuff we manually did in express
 
-# make this a blueprint
+
+
 user = Blueprint('users','user')
 
 @user.route('/', methods=['GET'])
@@ -23,14 +21,16 @@ def test_user_resource():
 def register():
     payload = request.get_json()
     # print(payload)
-
+    payload['name'] = payload['name'].lower()
     # since emails are case insensitive in the world
     payload['email'] = payload['email'].lower()
     # we will do the same with username
     payload['username'] = payload['username'].lower()
     # print(payload)
+    payload['password'] = payload['password'].lower()
+
     try:
-    # .get is nice -- http://docs.peewee-orm.com/en/latest/peewee/querying.html#selecting-a-single-record
+
         models.User.get(models.User.email == payload['email'])
         # this will throw an error ("models.DoesNotExist exception")
 
@@ -42,13 +42,14 @@ def register():
             status=401
         ), 401
 
-    except models.DoesNotExist: # except is like catch in JS
+    except models.DoesNotExist: 
         # the user does not exist
         # scramble the password with bcrypt
         pw_hash = generate_password_hash(payload['password'])
 
         # create them
         created_user = models.User.create(
+            name=payload['name'],
             username=payload['username'],
             email=payload['email'],
             password=pw_hash
@@ -58,15 +59,8 @@ def register():
         created_user_dict = model_to_dict(created_user)
         print(created_user_dict)
 
-        # this is where we will actually use flask-login
-        # this "logs in" the user and starts a session
-        # https://flask-login.readthedocs.io/en/latest/#login-example
         login_user(created_user)
 
-        # we can't jsonify the password (generate_password_hash gives us
-        # something of type "bytes" which is unserializable)
-        # plus we shouldn't send the encrypted pw back anyway
-        # print(type(created_user_dict['password']))
         created_user_dict.pop('password')
 
         return jsonify(
@@ -85,11 +79,7 @@ def login():
         user = models.User.get(models.User.email == payload['email'])
 
         user_dict = model_to_dict(user)
-        # check the users pw using bcrypt
-        # check_password_hash: 2 args..
-          # 1. the encrypted pw you are checking against
-          # 2. the pw attempt you are trying to verify
-          # https://flask-bcrypt.readthedocs.io/en/latest/
+
         password_is_good = check_password_hash(user_dict['password'], payload['password'])
 
         if(password_is_good):

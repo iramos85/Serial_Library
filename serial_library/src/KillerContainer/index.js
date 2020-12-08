@@ -5,6 +5,10 @@ export default class SerialProfileList extends Component {
   
   constructor(props) {
     super(props)
+
+    this.state = {
+      profiles: [],
+    }
   }
 
   componentDidMount() {
@@ -37,7 +41,7 @@ export default class SerialProfileList extends Component {
     return (
       <React.Fragment>
         <h2>Infernal List</h2>
-        <KillerProfileList/>
+        {/* <KillerProfileList /> */}
       </React.Fragment>
     )
   }

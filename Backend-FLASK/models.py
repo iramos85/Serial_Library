@@ -1,15 +1,12 @@
 
-# import * means import everything from peewee
-
 from peewee import *
 import datetime
 from flask_login import UserMixin
 
 DATABASE = SqliteDatabase('killer_profiles.sqlite')
 
-# http://docs.peewee-orm.com/en/latest/peewee/models.html
-
 class User(UserMixin, Model):
+    name=CharField(unique=True)
     username=CharField(unique=True)
     email=CharField(unique=True)
     password=CharField()
