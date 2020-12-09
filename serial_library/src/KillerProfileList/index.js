@@ -33,7 +33,7 @@ export default function KillerProfileList(props) {
   const classes = useStyles()
   const [expanded, setExpanded] = useState (false)
   
-  const profiles = props.profiles.map(profile => {
+  const killerProfile = props.profiles.map(profile => {
 
     const toggleExpanded = () => {
       setExpanded(!expanded)
@@ -42,11 +42,11 @@ export default function KillerProfileList(props) {
         <React.Fragment>
         <Card className={classes.card}>
           <CardHeader
-            title={profile.name}
-            subheader={profile.active}
+            title={props.profile.name}
+            subheader={props.profile.active}
           />
           <CardContent>
-            <Typography variant='caption'>Active: {profile.active}</Typography>
+            <Typography variant='caption'>Active: {props.profile.active}</Typography>
           </CardContent>
           <CardActions disableActionspacing>
           <IconButton
@@ -73,11 +73,5 @@ export default function KillerProfileList(props) {
         </React.Fragment>
       )
     })
-
-    return(
-      <Card.Group>
-        {profiles}
-      </Card.Group>
-    )
   }
 }

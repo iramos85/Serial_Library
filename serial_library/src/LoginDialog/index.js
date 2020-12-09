@@ -9,10 +9,10 @@ import Snackbar from '@material-ui/core/Snackbar'
 import '../index.css'
 
 
-export default class RegisterForm extends Component {
+export default class LoginForm extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       dialogOpen:false, 
@@ -20,9 +20,16 @@ export default class RegisterForm extends Component {
       snackbarMessage:'',
       username:'',
       password:'',
-      action: 'Login'
+      action: 'Login',
+      loggedIn: false
     }
   } 
+  toggleDialogBox = () => {
+    this.setState({
+      dialogOpen:!this.state.dialogOpen,
+    })
+    console.log(this.state)
+  }
 
   handleChange = (event) => {
     this.setState({
@@ -33,21 +40,18 @@ export default class RegisterForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     console.log(`You are trying to ${this.state.action.toLowerCase()} with the following credentials`)
-    console.log(this.state);
+    console.log(this.state)
 
-    if(this.state.action === "Register") {
-        this.props.register(this.state)
-      } else {
-        this.props.login(this.state)
-      }
-  }
-
-  toggleDialogBox = () => {
+    this.props.login(this.state)
     this.setState({
-      dialogOpen:!this.state.dialogOpen,
+      username:'',
+      password:'',
+      loggedIn: true
     })
     console.log(this.state)
   }
+
+
 
   onSnackbarClose = (e, reason) => {
     if (reason === 'clickaway'){
@@ -59,8 +63,7 @@ export default class RegisterForm extends Component {
 
   onCreate = () => {
     this.setState({snackbarOpen:true})
-    this.setState({snackbarMessage: `${this.state.username} created`})
-    this.toggleDialogBox()
+    this.setState({snackbarMessage: `${this.state.username} logged in`})
   }
 
 
@@ -71,41 +74,43 @@ export default class RegisterForm extends Component {
         <Button color='primary' onClick={this.toggleDialogBox}>
           Log-In
         </Button>
-        ?
-        <Button color='primary' onClick={this.toggleDialogBox}>
-          Logout
-        </Button>
         <Dialog open={this.state.dialogOpen} onClose={this.toggleDialogBox}>
-          <DialogTitle>New User</DialogTitle>
+          <DialogTitle>Log-In</DialogTitle>
           <DialogContent>
+          <form action={this.action} onSubmit={this.handleSubmit}>
             <TextField
             margin='normal'
             label='Username'
             InputProps={{ name: 'username'}}
             onChange = {this.handleChange}
-            value={this.username}
             fullWidth
             />
              <TextField
             margin='normal'
             type='password'
             label='Password'
-            onChange ={this.onChange}
-            value={this.password}
+            InputProps={{ name: 'password' }}
+            onChange ={this.handleChange}
             fullWidth
             />
+            <Button onClick={this.toggleDialogBox}>
+              <input type='submit' value='Submit'/>
+            </Button> 
+      
+            </form>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.toggleDialogBox} color='primary'>
               Cancel
             </Button>
-            <Button
+         {/* <Button
             variant='contained'
             onClick={this.onCreate}
             color='primary'
+            type='Submit'
             >
-      
-            </Button>
+              Create
+            </Button> */}
           </DialogActions>
           <Snackbar
             open={this.snackbarOpen}

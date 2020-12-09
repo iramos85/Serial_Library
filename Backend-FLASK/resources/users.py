@@ -86,14 +86,17 @@ def register():
             status=201
         ), 201
 
+
+
+
 @user.route('/login', methods=['POST'])
 def login():
     payload = request.get_json()
-    payload['email'] = payload['email'].lower()
+    payload['password'] = payload['password'].lower()
     payload['username'] = payload['username'].lower()
 
     try:
-        user = models.User.get(models.User.email == payload['email'])
+        user = models.User.get(models.User.username == payload['username'])
 
         user_dict = model_to_dict(user)
 
@@ -106,13 +109,13 @@ def login():
 
             return jsonify(
                 data=user_dict,
-                message=f"Successfully logged in {user_dict['email']}",
+                message=f"Successfully logged in {user_dict['username']}",
                 status=200
             ), 200
         else:
             return jsonify(
                 data={},
-                message="Email or password is incorrect", #let's be vague
+                message="username or password is incorrect", #let's be vague
                 status=401
             ), 401
 
@@ -120,22 +123,23 @@ def login():
     except models.DoesNotExist:
         return jsonify(
             data={},
-            message="Email or password is incorrect", #let's be vague
+            message="username or password is incorrect", #let's be vague
             status=401
         ), 401
 
-
-
-# @user.route('/<username>')
-# @login_required
+# @user.route('/<username>', method=['POST'])
+# @login()
 # def user(username):
 #     user = User.query.filter_by(username=username).first_or_404()
 #     readingList = [
 #         {'Killer 1', 'Test post #1'},
 #         {'Killer 2', 'Test post #2'}
 #     ]
-#     return render_template('user.html', user=user, readingList=readingList)
-
+#     return jsonify(
+#         data={},
+#         message='successfully hit profile page',
+#         status=200
+#     )
 
 @user.route('/logout', methods=['GET'])
 def logout():
@@ -145,3 +149,8 @@ def logout():
         message="successful logout",
         status=200
     ), 200
+
+
+
+
+

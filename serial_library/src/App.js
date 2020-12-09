@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import SerialProfileList from './KillerContainer'
-import RegisterForm from './RegisterDialog'
+import KillerContainer from './KillerContainer'
+import LoginRegisterForm from './RegisterDialog'
+import LoginForm from './LoginDialog'
 import Header from './Header'
+import { IconButton } from '@material-ui/core';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button from '@material-ui/core/Button'
 import './App.css';
 
 
 export default class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       loggedIn: false,
@@ -65,7 +69,7 @@ export default class App extends Component {
      if(loginResponse.status === 200) {
          this.setState({
            loggedIn: true,
-           loggedInUserEmail: loginJson.data.email
+           loggedInUsername: loginJson.data.username
          })
        }
    } catch(error) {
@@ -88,7 +92,7 @@ export default class App extends Component {
      if(logoutResponse.status === 200) {
        this.setState({
          loggedIn: false,
-         loggedInUserEmail: ''
+         loggedInUsername: ''
        })
  
      }
@@ -101,16 +105,30 @@ export default class App extends Component {
  
    render() {
      return (
-       <div className="App">
-           <React.Fragment>
-             <Header email={this.state.loggedInUsername} logout={this.logout} />
-             <SerialProfileList />
+       <div className="App"> 
+        { 
+          this.state.loggedIn
+          ?
+          <React.Fragment>
+           <Button 
+           variant='contained'
+           color='primary'
+           onClick={ this.logout}
+          >
+            Log-out
+            </Button>
+            <KillerContainer/>
            </React.Fragment>
            :
-           <RegisterForm
+          <React.Fragment>
+           <LoginRegisterForm
            register={this.register}
            />
-            
+           <LoginForm
+            login={this.login}
+           />
+          </React.Fragment> 
+        }
        </div>
      );
    }

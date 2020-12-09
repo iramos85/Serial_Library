@@ -111,7 +111,7 @@ export default class RegisterForm extends Component {
             onChange ={this.handleChange}
             fullWidth
             />
-            <Button onclick={this.toggleDialogBox}>
+            <Button onClick={this.toggleDialogBox}>
               <input type='submit' value='Submit'/>
             </Button> 
       
