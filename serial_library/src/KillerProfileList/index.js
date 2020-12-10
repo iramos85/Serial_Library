@@ -7,8 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography'
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 
 
 
@@ -20,7 +18,6 @@ export default function KillerProfileList(props) {
         {
           props.killer != undefined
           &&
-        
         <Card key={props.killer.id}>
             <CardHeader
               title={props.killer.name}
@@ -34,10 +31,11 @@ export default function KillerProfileList(props) {
               {props.killer.summary}
             </Typography>
           </CardContent>
-          <FormControlLabel
+          {/* <FormControlLabel
         control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH" />}
-        label="Favorite"
-      />
+        label="Add to Reading List" 
+        //onClick={}  currentUser.readinglist.push(event.currentTarget)
+      /> */}
         </Card>
         }
       </React.Fragment>

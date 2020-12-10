@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Snackbar from '@material-ui/core/Snackbar'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import '../index.css'
 
 
@@ -69,6 +70,7 @@ export default class RegisterForm extends Component {
     this.setState({snackbarMessage: `${this.state.username} created`})
   }
 
+  // ValidationFIeld = props 
 
   render() {
      return (

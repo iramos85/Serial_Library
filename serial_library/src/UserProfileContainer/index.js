@@ -1,30 +1,25 @@
-import React, { Component, Fragment, PropTypes } from 'react'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Snackbar from '@material-ui/core/Snackbar'
-import '../index.css'
-import ProfileArea from '../UserProfilePage/ProfileArea';
+import React, { Component } from 'react'
+import UserProfile from '../UserProfilePage'
 
-class ProfilePage extends React.Component {
+export default class UserProfileContainer extends Component {
   
-  
-  render() {
+  constructor(props) {
+    super(props)
+
+  }
+
+
+
+  render(){
     return (
-      <div>
-        <ProfileArea
-          username="peter"
-          emailAddress="peter@whatever.com"
+      <React.Fragment>
+        <UserProfile
+        name={this.props.name}
+        username={this.props.username}
+        email={this.props.email}
         />
-      </div>
-    );
+        <p>{this.props.name}</p>
+      </React.Fragment>
+    )
   }
 }
-
-ProfilePage.propTypes = {
-};
-
-export default ProfilePage;

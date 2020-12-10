@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import KillerContainer from './KillerContainer';
+import { MenuList } from '@material-ui/core';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import LoginRegisterForm from './RegisterDialog';
 import LoginForm from './LoginDialog';
+import UserProfileContainer from './UserProfileContainer'
 import Header from './Header';
 import { IconButton } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -15,15 +21,17 @@ export default class App extends Component {
 
     this.state = {
       loggedIn: false,
-      loggedInUsername: ''
+      loggedInUsername: '',
+      loggedInUserEmail: '',
+      loggedInName: ''
     }
   }
 
   register = async (registerInfo) => {
     console.log("register() in App.js called with the following info", registerInfo);
     const url = process.env.REACT_APP_API_URL + "/api/v1/users/register"
-    console.log(url)
-    console.log('im in the register function')
+    // console.log(url)
+    // console.log('im in the register function')
     try {
       const registerResponse = await fetch(url, {
         credentials: 'include', // sends the cookie
@@ -40,8 +48,11 @@ export default class App extends Component {
       if(registerResponse.status === 201) {
         this.setState({
           loggedIn: true,
-          loggedInUserEmail: registerJson.data.email
+          loggedInUserEmail: registerJson.data.email,
+          loggedInUsername: registerJson.data.username,
+          loggedInName: registerJson.data.name
         })
+        console.log(this.state)
       }
    } catch(err) {
      console.error("Error trying to register with API")
@@ -69,7 +80,9 @@ export default class App extends Component {
      if(loginResponse.status === 200) {
          this.setState({
            loggedIn: true,
-           loggedInUsername: loginJson.data.username
+           loggedInUserEmail: loginJson.data.email,
+           loggedInUsername: loginJson.data.username,
+           loggedInName: loginJson.data.name
          })
        }
    } catch(error) {
@@ -78,6 +91,36 @@ export default class App extends Component {
    }
  }
  
+ user = async (userInfo) => {
+  console.log("user() in App.js called with the following info", userInfo);
+  const url = process.env.REACT_APP_API_URL + '/api/v1/users/<username>'
+  console.log('im in the user function')
+
+  try {
+    const userResponse = await fetch(url, {
+      credentials: 'include', // sends cookie
+      method: 'GET',
+      body: JSON.stringify(userInfo),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    console.log("userResponse", userResponse);
+    const userJson = await userResponse.json()
+    console.log("userJson", userJson);
+
+    if(userResponse.status === 200) {
+        this.setState({
+          loggedIn: true,
+          loggedInUsername: userJson.data.username
+        })
+      }
+  } catch(error) {
+    console.error("Error getting user profile")
+    console.error(error)
+  }
+}
+
  logout = async () => {
    try {
      const url = process.env.REACT_APP_API_URL + "/api/v1/users/logout"
@@ -103,34 +146,40 @@ export default class App extends Component {
    }
  }
  
-   render() {
-     return (
-       <div className="App"> 
-        { 
-          this.state.loggedIn
-          ?
-          <React.Fragment>
-           <Button 
-           variant='contained'
-           color='primary'
-           onClick={ this.logout}
-          >
-            Log-out
-            </Button>
-            <KillerContainer/>
-           </React.Fragment>
-           :
-          <React.Fragment>
-           <LoginRegisterForm
-           register={this.register}
-           />
-           <LoginForm
-            login={this.login}
-           />
-          </React.Fragment> 
-        }
-       </div>
-     );
-   }
- }
+  render() {
+    return (
+      <div className="App"> 
+      { 
+        this.state.loggedIn
+        ?
+        <React.Fragment>
+          <UserProfileContainer
+            name={this.state.loggedInName}
+            username={this.state.loggedInUsername}
+            email={this.state.loggedInUserEmail}
+          />
+          <Button 
+          variant='contained'
+          color='primary'
+          onClick={ this.logout}
+        >
+          Log-out
+          </Button>
+          <KillerContainer/>
+          </React.Fragment>
+          :
+        <React.Fragment>
+          <LoginRegisterForm
+          register={this.register}
+          />
+          <LoginForm
+          login={this.login}
+          />
+        </React.Fragment> 
+      }
+      </div>
+    );
+  }
+}
+
 

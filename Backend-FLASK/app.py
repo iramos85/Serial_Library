@@ -70,7 +70,18 @@ def after_request(response):
 def index():
 	return "Hello"
 
+@app.route('/profile/<username>')
+def profile(username):
 
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    user = User.query.filter_by(username = session['username'])
+
+    if user is None:
+        return redirect(url_for('login'))
+    else:
+        return render_template('profile.html')
 
 
 # When we run this file, everything below this is our executable

@@ -1,25 +1,11 @@
-
-
 import models
-
 from flask import Blueprint, request, jsonify, request, redirect, url_for
 from functools import wraps
 from flask_bcrypt import generate_password_hash, check_password_hash
-
 from playhouse.shortcuts import model_to_dict
 from flask_login import login_user, current_user, logout_user
 
-
-
 user = Blueprint('users','user')
-
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if g.user is None:
-            return redirect(url_for('login', next=request.url))
-        return f(*args, **kwargs)
-    return decorated_function
 
 @user.route('/', methods=['GET'])
 def test_user_resource():
@@ -32,7 +18,6 @@ def test_user_resource():
         print(user_dicts)
 
         return jsonify(user_dicts), 200
-
 
 @user.route('/register', methods=['POST'])
 def register():
@@ -86,9 +71,6 @@ def register():
             status=201
         ), 201
 
-
-
-
 @user.route('/login', methods=['POST'])
 def login():
     payload = request.get_json()
@@ -127,19 +109,7 @@ def login():
             status=401
         ), 401
 
-# @user.route('/<username>', method=['POST'])
-# @login()
-# def user(username):
-#     user = User.query.filter_by(username=username).first_or_404()
-#     readingList = [
-#         {'Killer 1', 'Test post #1'},
-#         {'Killer 2', 'Test post #2'}
-#     ]
-#     return jsonify(
-#         data={},
-#         message='successfully hit profile page',
-#         status=200
-#     )
+
 
 @user.route('/logout', methods=['GET'])
 def logout():
@@ -150,7 +120,19 @@ def logout():
         status=200
     ), 200
 
-
+# @user.route('/<username>', method=['GET'])
+# def user():
+#     print('this is the user profile page')
+# #     user = User.query.filter_by(username=username).first_or_404()
+# #     readingList = [
+# #         {'Killer 1', 'Test post #1'},
+# #         {'Killer 2', 'Test post #2'}
+# #     ]
+#     # return jsonify(
+#     #     data={},
+#     #     message='successfully hit profile page',
+#     #     status=200
+#     # )
 
 
 
