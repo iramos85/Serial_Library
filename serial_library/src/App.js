@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import KillerContainer from './KillerContainer'
-import LoginRegisterForm from './RegisterDialog'
-import LoginForm from './LoginDialog'
-import Header from './Header'
+import KillerContainer from './KillerContainer';
+import LoginRegisterForm from './RegisterDialog';
+import LoginForm from './LoginDialog';
+import Header from './Header';
 import { IconButton } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 import './App.css';
 
 

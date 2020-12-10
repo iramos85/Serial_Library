@@ -7,7 +7,7 @@ export default class KillerContainer extends Component {
     super(props)
 
     this.state = {
-      killers: [],
+      killer: []
     }
   }
 
@@ -15,11 +15,15 @@ export default class KillerContainer extends Component {
     this.getKillers()
   }
 
+  // componentDidUpdate(){
+  // console.log('this is the data for this.state.killers:', this.state.killers)
+  // }
+
   getKillers = async () => {
-    
+
     try {
 
-      const url = process.env.REACT_APP_API_URL + "/api/v1/killers/"
+      const url = process.env.REACT_APP_API_URL + "/api/v1/killers/random"
       console.log("about to fetch data from:")
       console.log(url)
       const killersResponse = await fetch(url, {
@@ -30,17 +34,13 @@ export default class KillerContainer extends Component {
       console.log(killersJson)
 
       this.setState({
-        killers: killersJson.data.killers
+        killers: killersJson.data
       })
-
+      console.log('state', Array.isArray(this.state.killers))
     } catch(err) {
       console.log("Error getting Killer Profiles data.", err)
     }
   }
-
-  // randomKiller = () => {
-  //    this.state.profiles[Math.floor(Math.random() * this.state.profiles.length)]
-  // }
 
 
   render(){
@@ -48,9 +48,12 @@ export default class KillerContainer extends Component {
       <React.Fragment>
         <h2>Infernal List</h2>
         <KillerProfileList
-        killers={this.state.killers}
+        killer={this.state.killers}
         />
       </React.Fragment>
     )
   }
 }
+      //   <KillerProfileList
+      //     killer={this.state.killers}
+      //  /> 

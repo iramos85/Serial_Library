@@ -7,6 +7,7 @@ from playhouse.shortcuts import model_to_dict
 from flask_login import current_user
 import pandas
 import csv
+import random
 
 
 killer = Blueprint('killers', 'killer')
@@ -27,6 +28,12 @@ def get_one_killer(id):
     killer = models.Killer.get_by_id(id)
     return jsonify(data=model_to_dict(killer), status={"code": 200, "message": "Success"})
 
+@killer.route('/random', methods=["GET"])
+def get_random_killer():
+    random_profile = random.randint(0,650)
+    killer = models.Killer.get_by_id(random_profile)
+    
+    return jsonify(data=model_to_dict(killer), status={"code": 200, "message": "Success"})
 
 ##DO NOT USE THIS ROUTE. THIS WAS FOR THE INITIAL CREATION OF THE DATABASE##
 @killer.route('/seed', methods=["GET"])
