@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Snackbar from '@material-ui/core/Snackbar'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import { yellow } from "@material-ui/core/colors"
 import '../index.css'
 
 
@@ -36,8 +37,8 @@ export default class RegisterForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    console.log(`You are trying to ${this.state.action.toLowerCase()} with the following credentials`)
-    console.log(this.state)
+    // console.log(`You are trying to ${this.state.action.toLowerCase()} with the following credentials`)
+    // console.log(this.state)
 
     this.props.register(this.state)
     this.setState({
@@ -47,14 +48,14 @@ export default class RegisterForm extends Component {
       password:'',
       loggedIn: true
     })
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   toggleDialogBox = () => {
     this.setState({
       dialogOpen:!this.state.dialogOpen,
     })
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   onSnackbarClose = (e, reason) => {
@@ -76,7 +77,7 @@ export default class RegisterForm extends Component {
      return (
 
       <Fragment>
-        <Button id='newUserButton' variant='outlined' color='primary' onClick={this.toggleDialogBox}>
+        <Button id='newUserButton' variant='contained' color='primary' onClick={this.toggleDialogBox}>
           New User
         </Button>
         <Dialog open={this.state.dialogOpen} onClose={this.toggleDialogBox}>

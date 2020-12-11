@@ -28,7 +28,7 @@ export default class LoginForm extends Component {
     this.setState({
       dialogOpen:!this.state.dialogOpen,
     })
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   handleChange = (event) => {
@@ -39,8 +39,8 @@ export default class LoginForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    console.log(`You are trying to ${this.state.action.toLowerCase()} with the following credentials`)
-    console.log(this.state)
+    // console.log(`You are trying to ${this.state.action.toLowerCase()} with the following credentials`)
+    // console.log(this.state)
 
     this.props.login(this.state)
     this.setState({
@@ -71,7 +71,7 @@ export default class LoginForm extends Component {
      return (
 
       <Fragment>
-        <Button id="loginButton" variant='outlined' color='secondary' onClick={this.toggleDialogBox}>
+        <Button id="loginButton" variant='contained' color='secondary' onClick={this.toggleDialogBox}>
           Log-In
         </Button>
         <Dialog open={this.state.dialogOpen} onClose={this.toggleDialogBox}>
