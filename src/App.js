@@ -149,26 +149,33 @@ export default class App extends Component {
   render() {
     return (
       <div className="App"> 
+      <h1 id='mainTitle'>The Serial Library</h1>
       { 
         this.state.loggedIn
         ?
         <React.Fragment>
+          
+          <KillerContainer/>
           <UserProfileContainer
             name={this.state.loggedInName}
             username={this.state.loggedInUsername}
             email={this.state.loggedInUserEmail}
-          />
-          <Button 
+          /> 
+          <Button
+          id='logOutButton' 
           variant='contained'
-          color='primary'
+          color='secondary'
           onClick={ this.logout}
         >
           Log-out
           </Button>
-          <KillerContainer/>
+         
           </React.Fragment>
           :
-        <React.Fragment>
+          
+          <React.Fragment>
+          <p id='introQoute'><strong>"..Cain talked with Abel,his brother<br/>"Let's go out to the field." <br/>While they were in the field, Cain rose up against Abel and killed him." <br/>-Genesis 4:8</strong></p>
+        
           <LoginRegisterForm
           register={this.register}
           />

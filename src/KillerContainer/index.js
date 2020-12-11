@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import KillerProfileList from '../KillerProfileList'
+import Button from '@material-ui/core/Button'
 
 export default class KillerContainer extends Component {
   
@@ -46,10 +47,12 @@ export default class KillerContainer extends Component {
   render(){
     return (
       <React.Fragment>
-        <h2>Infernal List</h2>
         <KillerProfileList
         killer={this.state.killers}
         />
+        {/* <Button onClick={this.getKillers}>
+        Next
+        </Button> */}
       </React.Fragment>
     )
   }

@@ -72,7 +72,7 @@ export default class UserProfile extends Component {
      return (
 
       <Fragment>
-        <Button color='primary' onClick={this.toggleDialogBox}>
+        <Button id='userProfileButton' variant='contained' color='primary' onClick={this.toggleDialogBox}>
           User Profile
         </Button>
         <Dialog open={this.state.dialogOpen} onClose={this.toggleDialogBox}>
