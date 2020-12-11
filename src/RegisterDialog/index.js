@@ -76,7 +76,7 @@ export default class RegisterForm extends Component {
      return (
 
       <Fragment>
-        <Button color='primary' onClick={this.toggleDialogBox}>
+        <Button id='newUserButton' variant='outlined' color='primary' onClick={this.toggleDialogBox}>
           New User
         </Button>
         <Dialog open={this.state.dialogOpen} onClose={this.toggleDialogBox}>

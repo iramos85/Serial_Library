@@ -71,7 +71,7 @@ export default class LoginForm extends Component {
      return (
 
       <Fragment>
-        <Button color='primary' onClick={this.toggleDialogBox}>
+        <Button id="loginButton" variant='outlined' color='secondary' onClick={this.toggleDialogBox}>
           Log-In
         </Button>
         <Dialog open={this.state.dialogOpen} onClose={this.toggleDialogBox}>

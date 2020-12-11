@@ -28,7 +28,7 @@ export default class App extends Component {
   }
 
   register = async (registerInfo) => {
-    console.log("register() in App.js called with the following info", registerInfo);
+    // console.log("register() in App.js called with the following info", registerInfo);
     const url = process.env.REACT_APP_API_URL + "/api/v1/users/register"
     // console.log(url)
     // console.log('im in the register function')
@@ -43,7 +43,7 @@ export default class App extends Component {
       })
       console.log("registerResponse", registerResponse);
       const registerJson = await registerResponse.json()
-      console.log("registerJson", registerJson);
+      // console.log("registerJson", registerJson);
   
       if(registerResponse.status === 201) {
         this.setState({
@@ -52,7 +52,7 @@ export default class App extends Component {
           loggedInUsername: registerJson.data.username,
           loggedInName: registerJson.data.name
         })
-        console.log(this.state)
+        // console.log(this.state)
       }
    } catch(err) {
      console.error("Error trying to register with API")
@@ -61,7 +61,7 @@ export default class App extends Component {
  }
  
  login = async (loginInfo) => {
-   console.log("login() in App.js called with the following info", loginInfo);
+  //  console.log("login() in App.js called with the following info", loginInfo);
    const url = process.env.REACT_APP_API_URL + '/api/v1/users/login'
  
    try {
@@ -73,9 +73,9 @@ export default class App extends Component {
          'Content-Type': 'application/json'
        }
      })
-     console.log("loginResponse", loginResponse);
+    //  console.log("loginResponse", loginResponse);
      const loginJson = await loginResponse.json()
-     console.log("loginJson", loginJson);
+    //  console.log("loginJson", loginJson);
  
      if(loginResponse.status === 200) {
          this.setState({
@@ -92,9 +92,9 @@ export default class App extends Component {
  }
  
  user = async (userInfo) => {
-  console.log("user() in App.js called with the following info", userInfo);
+  // console.log("user() in App.js called with the following info", userInfo);
   const url = process.env.REACT_APP_API_URL + '/api/v1/users/<username>'
-  console.log('im in the user function')
+  // console.log('im in the user function')
 
   try {
     const userResponse = await fetch(url, {
@@ -105,9 +105,9 @@ export default class App extends Component {
         'Content-Type': 'application/json'
       }
     })
-    console.log("userResponse", userResponse);
+    // console.log("userResponse", userResponse);
     const userJson = await userResponse.json()
-    console.log("userJson", userJson);
+    // console.log("userJson", userJson);
 
     if(userResponse.status === 200) {
         this.setState({
@@ -128,9 +128,9 @@ export default class App extends Component {
      const logoutResponse = await fetch(url, {
        credentials: 'include'
      })
-     console.log("logoutResponse", logoutResponse);
+    //  console.log("logoutResponse", logoutResponse);
      const logoutJson = await logoutResponse.json()
-     console.log("logoutJson", logoutJson);
+    //  console.log("logoutJson", logoutJson);
  
      if(logoutResponse.status === 200) {
        this.setState({
