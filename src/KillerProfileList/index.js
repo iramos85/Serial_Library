@@ -20,6 +20,7 @@ export default function KillerProfileList(props) {
           &&
         <Card key={props.killer.id}>
             <CardHeader
+              id='killerName'
               title={props.killer.name}
               subheader={props.active}
             />

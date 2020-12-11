@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Niconne&display=swap');
 
 .App {
   text-align: center;
@@ -46,8 +50,9 @@
 }
 #introQoute{
   font-family: 'Tangerine', cursive;
+  font-family: 'Cinzel Decorative', cursive;
   color: ghostwhite;
-  font-size: 50px;
+  font-size: 30px;
   display: block;
   transform: scale(.5,1);
   letter-spacing: 2px;
@@ -65,7 +70,9 @@ body{
   height: 100%;
 }
 
-
+#killerName {
+  font-family: 'Niconne', cursive;
+}
 
 #newUserButton {
   margin-top:10%;
@@ -88,7 +95,7 @@ body{
 
 #userProfileButton {
   margin-top:3%;
-  left: 45%;
+  left: 43%;
   right:auto;
   position: absolute;
 }
